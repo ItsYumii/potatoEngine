@@ -39,14 +39,30 @@ public class Vector3 {
 
     public Vector3 div(double k) {
         if (Math.abs(k) < EPS) {
-            Console.warn("Close to 0 division. (%s)", Double.toString(.0000000001));
-            Console.info("Returning Infinite Vector3.");
+            Console.warn("Division by near-zero. (%s)", Double.toString(k));
             return INF.copy();
         }
         return new Vector3(this.x / k, this.y / k, this.z / k);
     }
     public Vector3 div(Vector3 v) {
-        return new Vector3(this.x / v.x, this.y / v.y, this.z / v.z);
+        double rx, ry, rz;
+
+        if (Math.abs(v.x) < EPS) {
+            Console.warn("Division by near-zero x: %s", v.toString());
+            rx = Double.POSITIVE_INFINITY;
+        } else rx = this.x / v.x;
+
+        if (Math.abs(v.y) < EPS) {
+            Console.warn("Division by near-zero y: %s", v.toString());
+            ry = Double.POSITIVE_INFINITY;
+        } else ry = this.y / v.y;
+
+        if (Math.abs(v.z) < EPS) {
+            Console.warn("Division by near-zero z: %s", v.toString());
+            rz = Double.POSITIVE_INFINITY;
+        } else rz = this.z / v.z;
+
+        return new Vector3(rx, ry, rz);
     }
 
     public Vector3 floor() {
@@ -76,6 +92,9 @@ public class Vector3 {
 
     public Vector3 normalize() {
         double len = this.len();
+        if (len < EPS) {
+            return ZERO.copy();
+        }
         return this.div(len);
     }
 
@@ -90,4 +109,13 @@ public class Vector3 {
         return this.x == v.x && this.y == v.y && this.z == v.z;
     }
 
+    @Override
+    public int hashCode() {
+        return Double.hashCode(this.x) ^ Double.hashCode(this.y) ^ Double.hashCode(this.z);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+    }
 }
