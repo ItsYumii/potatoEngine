@@ -46,7 +46,6 @@ public class Matrix4x4 {
         return new Matrix4x4(out);
     }
 
-    // dump row-major, let GL transpose
     public static FloatBuffer toFloatBuffer(Matrix4x4 mat) {
         FloatBuffer fb = BufferUtils.createFloatBuffer(16);
         for (int i = 0; i < 16; i++) {
@@ -55,6 +54,7 @@ public class Matrix4x4 {
         fb.flip();
         return fb;
     }
+
 
     public static Matrix4x4 createScale(Vector3 scale) {
         return new Matrix4x4(new double[]{
