@@ -5,11 +5,9 @@ import objects.Cube;
 import objects.rasterizer.ShaderProgram;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11C;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryStack;
 
+import static objects.rasterizer.Texture.loadTexture;
 import static org.lwjgl.opengl.GL11C.*;
 
 private static double deltaTime = 0;
@@ -21,12 +19,7 @@ private static int shaderProgram;
 private static int locMvp;
 private static int locModel;
 
-private static Cube cube;
-private static Cube cube1;
-private static Cube cube2;
-private static Cube cube3;
-
-private static List<Cube> cubes = new ArrayList<>();
+private static final List<Cube> cubes = new ArrayList<>();
 
 void main() {
     if (!initScreen()) {
@@ -36,13 +29,13 @@ void main() {
 
     initShaders();
 
-    for(int i = 0; i < 10000; i++) {
+    for(int i = 0; i < 1000000; i++) {
         cubes.add(
             new Cube(
                 new Vector3(0, 0, -3),
                 new Vector3(0.5, 0.5, 0.5),
                 1,
-                loadTexture("kot.png")
+                loadTexture("kot.png").getID()
             )
         );
     }
@@ -57,7 +50,7 @@ void main() {
 
         deltaTimeAccumulator += deltaTime;
         fpsCounter++;
-        if(deltaTimeAccumulator > 1) {
+        while(deltaTimeAccumulator > 1) {
             Console.info("FPS: %f", fpsCounter);
             fpsCounter = fpsCounter * (deltaTimeAccumulator - 1);
             deltaTimeAccumulator -= 1;
@@ -146,39 +139,4 @@ private static boolean initScreen() {
     glEnable(GL_CULL_FACE);  // extra paranoia
 
     return true;
-}
-
-private static int loadTexture(String path) {
-    int texId;
-    path = "src/assets/textures/" + path;
-
-    try (MemoryStack stack = MemoryStack.stackPush()) {
-        IntBuffer w = stack.mallocInt(1);
-        IntBuffer h = stack.mallocInt(1);
-        IntBuffer channels = stack.mallocInt(1);
-
-        STBImage.stbi_set_flip_vertically_on_load(true);
-        ByteBuffer image = STBImage.stbi_load(path, w, h, channels, 4);
-        if (image == null) {
-            Console.err("Path to texture invalid (%s)", path);
-            image = STBImage.stbi_load("src/assets/textures/no_texture.png", w, h, channels, 4);
-        }
-
-        texId = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, texId);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w.get(0), h.get(0), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-
-        STBImage.stbi_image_free(image);
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-
-    return texId;
 }

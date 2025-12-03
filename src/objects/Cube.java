@@ -5,8 +5,8 @@ import math.Vector2;
 import math.Vector3;
 import objects.rasterizer.MeshGL;
 import objects.rasterizer.Triangle;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
@@ -16,15 +16,28 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11C.glBindTexture;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class Cube {
 
     private final List<Triangle> triangles = new ArrayList<>();
-    private Vector3 pos;
-    private int texture;
     private final MeshGL mesh;
+    private final int texture;
+    private Vector3 pos;
     public Vector3 rot = new Vector3(0, 0, 0);
+
+    private final Matrix4x4 rotXMatrix = new Matrix4x4();
+    private final Matrix4x4 rotYMatrix = new Matrix4x4();
+    private final Matrix4x4 rotZMatrix = new Matrix4x4();
+
+    private final Matrix4x4 rotMatrix = new Matrix4x4();
+    private final Matrix4x4 posMatrix = new Matrix4x4();
+
+    private final Matrix4x4 modelMatrix = new Matrix4x4();
+    private final Matrix4x4 mvpMatrix   = new Matrix4x4();
+
+    private final FloatBuffer fbModel = BufferUtils.createFloatBuffer(16);
+    private final FloatBuffer fbMvp   = BufferUtils.createFloatBuffer(16);
+
 
     public Cube(Vector3 pos, Vector3 sizeFromCenter, int textureRepeat, int texture) {
         // South
@@ -58,24 +71,45 @@ public class Cube {
 
 
     public void draw(Matrix4x4 viewProj, int shaderProgram, int locMvp, int locModel) {
+
         // build model = translation * rotation (row-major, v on the right)
-        Matrix4x4 rotMat  = Matrix4x4.createFullRotation(this.rot);
-        Matrix4x4 trans   = Matrix4x4.createTranslation(this.pos);
-        Matrix4x4 model   = trans.mul(rotMat);
+        this.rotXMatrix.setRotationX(this.rot.x);
+        this.rotYMatrix.setRotationY(this.rot.y);
+        this.rotZMatrix.setRotationZ(this.rot.z);
+
+        this.rotMatrix.copy(this.rotYMatrix);
+        this.rotMatrix.mulM(this.rotXMatrix);
+        this.rotMatrix.mulM(this.rotZMatrix);
+
+        this.posMatrix.setTranslation(this.pos);
+
+        this.modelMatrix.copy(this.posMatrix);
+        this.modelMatrix.mulM(this.rotMatrix);
 
         // MVP = P * V * M
-        Matrix4x4 mvp = viewProj.mul(model);
+        this.mvpMatrix.copy(viewProj);
+        this.mvpMatrix.mulM(this.modelMatrix);
+
+        // build model = translation * rotation (row-major, v on the right)
+//        Matrix4x4 rotMat  = Matrix4x4.createFullRotation(this.rot);
+//        Matrix4x4 trans   = Matrix4x4.createTranslation(this.pos);
+//        Matrix4x4 model   = this.modelMatrix;
+
+        // MVP = P * V * M
+//        Matrix4x4 mvp = mvpMatrix;
 
         GL20.glUseProgram(shaderProgram);
 
         if (locMvp >= 0) {
-            FloatBuffer fbMvp = Matrix4x4.toFloatBuffer(mvp);
-            GL20.glUniformMatrix4fv(locMvp, true, fbMvp);
+//            FloatBuffer fbMvp = Matrix4x4.toFloatBuffer(mvp);
+            this.mvpMatrix.toFloatBuffer(this.fbMvp);
+            GL20.glUniformMatrix4fv(locMvp, true, this.fbMvp);
         }
 
         if (locModel >= 0) {
-            FloatBuffer fbModel = Matrix4x4.toFloatBuffer(model);
-            GL20.glUniformMatrix4fv(locModel, true, fbModel);
+//            FloatBuffer fbModel = Matrix4x4.toFloatBuffer(model);
+            this.modelMatrix.toFloatBuffer(this.fbModel);
+            GL20.glUniformMatrix4fv(locModel, true, this.fbModel);
         }
 
         glBindTexture(GL_TEXTURE_2D, this.texture);
