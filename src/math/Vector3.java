@@ -6,8 +6,10 @@ public class Vector3 {
 
     public double x, y, z;
 
-    public static final Vector3 ZERO = new Vector3(0, 0, 0),
-                                INF = new Vector3(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+    public static final Vector3
+        ZERO = new Vector3(0, 0, 0),
+        INF = new Vector3(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
     private static final double EPS = 1e-9;
 
     public Vector3(double x, double y, double z) {
@@ -19,8 +21,26 @@ public class Vector3 {
     public Vector3 add(Vector3 v) {
         return new Vector3(this.x + v.x, this.y + v.y, this.z + v.z);
     }
+    public Vector3 add(Vector2 v) {
+        return new Vector3(this.x + v.x, this.y + v.y, this.z);
+    }
     public Vector3 add(double k) {
         return new Vector3(this.x + k, this.y + k, this.z + k);
+    }
+
+    public void addM(Vector3 v) {
+        this.x += v.x;
+        this.y += v.y;
+        this.z += v.z;
+    }
+    public void addM(Vector2 v) {
+        this.x += v.x;
+        this.y += v.y;
+    }
+    public void addM(double k) {
+        this.x += k;
+        this.y += k;
+        this.z += k;
     }
 
     public Vector3 sub(Vector3 v) {
@@ -100,6 +120,10 @@ public class Vector3 {
 
     public Vector3 copy() {
         return new Vector3(this.x, this.y, this.z);
+    }
+
+    public void copy(Vector3 v) {
+        this.x = v.x; this.y = v.y; this.z = v.z;
     }
 
     // this is here so HashSet can compare Vectors as values, not their memory addresses.

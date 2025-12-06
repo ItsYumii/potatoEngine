@@ -69,7 +69,6 @@ public class Cube {
         this.mesh = MeshGL.buildMesh(triangles);
     }
 
-
     public void draw(Matrix4x4 viewProj, int shaderProgram, int locMvp, int locModel) {
 
         // build model = translation * rotation (row-major, v on the right)
@@ -90,24 +89,14 @@ public class Cube {
         this.mvpMatrix.copy(viewProj);
         this.mvpMatrix.mulM(this.modelMatrix);
 
-        // build model = translation * rotation (row-major, v on the right)
-//        Matrix4x4 rotMat  = Matrix4x4.createFullRotation(this.rot);
-//        Matrix4x4 trans   = Matrix4x4.createTranslation(this.pos);
-//        Matrix4x4 model   = this.modelMatrix;
-
-        // MVP = P * V * M
-//        Matrix4x4 mvp = mvpMatrix;
-
         GL20.glUseProgram(shaderProgram);
 
         if (locMvp >= 0) {
-//            FloatBuffer fbMvp = Matrix4x4.toFloatBuffer(mvp);
             this.mvpMatrix.toFloatBuffer(this.fbMvp);
             GL20.glUniformMatrix4fv(locMvp, true, this.fbMvp);
         }
 
         if (locModel >= 0) {
-//            FloatBuffer fbModel = Matrix4x4.toFloatBuffer(model);
             this.modelMatrix.toFloatBuffer(this.fbModel);
             GL20.glUniformMatrix4fv(locModel, true, this.fbModel);
         }

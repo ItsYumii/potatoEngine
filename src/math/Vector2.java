@@ -7,7 +7,7 @@ public class Vector2 {
     public double x, y;
 
     public static final Vector2 ZERO = new Vector2(0, 0),
-                                INF = new Vector2(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+            INF = new Vector2(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
     private static final double EPS = 1e-9;
 
     public Vector2(double x, double y) {
