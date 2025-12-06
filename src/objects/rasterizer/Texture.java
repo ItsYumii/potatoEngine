@@ -47,7 +47,7 @@ public class Texture {
         }
 
         int texId;
-        String filePath = "src/assets/textures/" + texturePath;
+        String filePath = "src/assets/textures/" + texturePath + ".png";
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer w = stack.mallocInt(1);

@@ -76,18 +76,21 @@ public class Cube {
         this.rotYMatrix.setRotationY(this.rot.y);
         this.rotZMatrix.setRotationZ(this.rot.z);
 
-        this.rotMatrix.copy(this.rotYMatrix);
-        this.rotMatrix.mulM(this.rotXMatrix);
-        this.rotMatrix.mulM(this.rotZMatrix);
+        this.rotMatrix
+            .copy(this.rotYMatrix)
+            .mulM(this.rotXMatrix)
+            .mulM(this.rotZMatrix);
 
-        this.posMatrix.setTranslation(this.pos);
+        this.posMatrix.setTranslation(this.pos.x, this.pos.y, this.pos.z);
 
-        this.modelMatrix.copy(this.posMatrix);
-        this.modelMatrix.mulM(this.rotMatrix);
+        this.modelMatrix
+            .copy(this.posMatrix)
+            .mulM(this.rotMatrix);
 
         // MVP = P * V * M
-        this.mvpMatrix.copy(viewProj);
-        this.mvpMatrix.mulM(this.modelMatrix);
+        this.mvpMatrix
+            .copy(viewProj)
+            .mulM(this.modelMatrix);
 
         GL20.glUseProgram(shaderProgram);
 

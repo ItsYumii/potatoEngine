@@ -7,6 +7,7 @@ import math.Vector2;
 import math.Vector3;
 import objects.Cube;
 import objects.engine.Camera;
+import objects.engine.Object;
 import objects.rasterizer.ShaderProgram;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
@@ -29,7 +30,7 @@ private static int locMvp;
 private static int locCamera;
 private static int locModel;
 
-private static final List<Cube> cubes = new ArrayList<>();
+//private static final List<Cube> cubes = new ArrayList<>();
 
 public static final Camera camera = new Camera();
 private static final Vector3 cameraPos = new Vector3(0, 0, 0);
@@ -42,17 +43,18 @@ void main() {
 
     initShaders();
 
-    for(int i = 0; i < 1; i++) {
-        cubes.add(
-                new Cube(
-                        new Vector3(0, 0, -3),
-                        new Vector3(0.5, 0.5, 0.5),
-                        1,
-                        loadTexture("kot.png").getID()
-                )
-        );
-    }
+//    for(int i = 0; i < 1; i++) {
+//        cubes.add(
+//            new Cube(
+//                new Vector3(0, 0, -3),
+//                new Vector3(0.5, 0.5, 0.5),
+//                1,
+//                loadTexture("kot.png").getID()
+//            )
+//        );
+//    }
 
+    new Object(new Vector3(0, 0, -3), new Vector3(0, 0, 180), loadTexture("kot").getID(), "pea_shooter");
 
     double last = GLFW.glfwGetTime();
 
@@ -108,11 +110,11 @@ private static void update() {
     camera.addCameraRotation(InputController.getMouseMove().mul(deltaTime));
     camera.setCameraPosition(cameraPos);
 
-    for(Cube c : cubes) {
-        c.rot.x += 15 * deltaTime;
-        c.rot.y += 15 * deltaTime;
-        c.rot.z += 15 * deltaTime;
-    }
+//    for(Cube c : cubes) {
+//        c.rot.x += 15 * deltaTime;
+//        c.rot.y += 15 * deltaTime;
+//        c.rot.z += 15 * deltaTime;
+//    }
 }
 
 private static void render() {
@@ -127,9 +129,11 @@ private static void render() {
         GL20.glUniformMatrix4fv(locCamera, true, camera.getViewFloatBuffer());
     }
 
-    for(Cube c : cubes) {
-        c.draw(viewProj, shaderProgram, locMvp, locModel);
-    }
+    Object.drawAllObjects(viewProj, shaderProgram, locMvp, locModel);
+
+//    for(Cube c : cubes) {
+//        c.draw(viewProj, shaderProgram, locMvp, locModel);
+//    }
 }
 
 private static void initShaders() {

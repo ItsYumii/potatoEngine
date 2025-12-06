@@ -19,6 +19,15 @@ public class Triangle {
         this.cuv = cuv;
     }
 
+    public Triangle(double repeat, double[] aw, double[] bw, double[] cw, double[] auv, double[] buv, double[] cuv) {
+        this.repeat = repeat;
+        this.aw  = Vector3.copy(aw);
+        this.bw  = Vector3.copy(bw);
+        this.cw  = Vector3.copy(cw);
+        this.auv = Vector2.copy(auv);
+        this.buv = Vector2.copy(buv);
+        this.cuv = Vector2.copy(cuv);
+    }
 
 
     public double getRepeat() { return repeat; }

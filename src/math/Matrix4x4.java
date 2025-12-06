@@ -46,7 +46,7 @@ public class Matrix4x4 {
         return new Matrix4x4(out);
     }
 
-    public void mulM(Matrix4x4 other) {
+    public Matrix4x4 mulM(Matrix4x4 other) {
         double[] a = this.m;
         double[] b = other.m;
 
@@ -74,6 +74,8 @@ public class Matrix4x4 {
         a[4]  = r10;  a[5]  = r11;  a[6]  = r12;  a[7]  = r13;
         a[8]  = r20;  a[9]  = r21;  a[10] = r22;  a[11] = r23;
         a[12] = r30;  a[13] = r31;  a[14] = r32;  a[15] = r33;
+
+        return this;
     }
 
     public void toFloatBuffer(FloatBuffer fb) {
@@ -106,7 +108,7 @@ public class Matrix4x4 {
         });
     }
 
-    public void setRotationX(double angle) {
+    public Matrix4x4 setRotationX(double angle) {
         double rad = angle * Math.PI / 180.0;
         double s = Math.sin(rad);
         double c = Math.cos(rad);
@@ -117,6 +119,8 @@ public class Matrix4x4 {
         m[4]  = 0; m[5]  = c; m[6]  = -s; m[7]  = 0;
         m[8]  = 0; m[9]  = s; m[10] =  c; m[11] = 0;
         m[12] = 0; m[13] = 0; m[14] =  0; m[15] = 1;
+
+        return this;
     }
 
     public static Matrix4x4 createRotationY(double angle) {
@@ -132,7 +136,7 @@ public class Matrix4x4 {
         });
     }
 
-    public void setRotationY(double angle) {
+    public Matrix4x4 setRotationY(double angle) {
         double rad = angle * Math.PI / 180.0;
         double s = Math.sin(rad);
         double c = Math.cos(rad);
@@ -143,6 +147,8 @@ public class Matrix4x4 {
         m[4]  =  0; m[5]  = 1; m[6]  = 0; m[7]  = 0;
         m[8]  = -s; m[9]  = 0; m[10] = c; m[11] = 0;
         m[12] =  0; m[13] = 0; m[14] = 0; m[15] = 1;
+
+        return this;
     }
 
     public static Matrix4x4 createRotationZ(double angle) {
@@ -158,7 +164,7 @@ public class Matrix4x4 {
         });
     }
 
-    public void setRotationZ(double angle) {
+    public Matrix4x4 setRotationZ(double angle) {
         double rad = angle * Math.PI / 180.0;
         double s = Math.sin(rad);
         double c = Math.cos(rad);
@@ -169,6 +175,8 @@ public class Matrix4x4 {
         m[4]  = s; m[5]  =  c; m[6]  = 0; m[7]  = 0;
         m[8]  = 0; m[9]  =  0; m[10] = 1; m[11] = 0;
         m[12] = 0; m[13] =  0; m[14] = 0; m[15] = 1;
+
+        return this;
     }
 
     public static Matrix4x4 createFullRotation(Vector3 rot) {
@@ -201,13 +209,15 @@ public class Matrix4x4 {
         });
     }
 
-    public void setTranslation(Vector3 shift) {
+    public Matrix4x4 setTranslation(double x, double y, double z) {
         double[] m = this.m;
 
-        m[0]  = 1; m[1]  = 0; m[2]  = 0; m[3]  = shift.x;
-        m[4]  = 0; m[5]  = 1; m[6]  = 0; m[7]  = shift.y;
-        m[8]  = 0; m[9]  = 0; m[10] = 1; m[11] = shift.z;
+        m[0]  = 1; m[1]  = 0; m[2]  = 0; m[3]  = x;
+        m[4]  = 0; m[5]  = 1; m[6]  = 0; m[7]  = y;
+        m[8]  = 0; m[9]  = 0; m[10] = 1; m[11] = z;
         m[12] = 0; m[13] = 0; m[14] = 0; m[15] = 1;
+
+        return this;
     }
 
     public static Matrix4x4 createProjection(double fovDeg, double width, double height, double near, double far) {
@@ -224,7 +234,9 @@ public class Matrix4x4 {
         });
     }
 
-    public void copy(Matrix4x4 m) {
+    public Matrix4x4 copy(Matrix4x4 m) {
         System.arraycopy(m.m, 0, this.m, 0, 16);
+
+        return this;
     }
 }

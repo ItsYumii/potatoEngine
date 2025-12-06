@@ -30,15 +30,16 @@ public class Camera {
         this.rotYMatrix.setRotationY(-this.rot.y);
         this.rotZMatrix.setRotationZ(-this.rot.z);
 
-        this.rotMatrix.copy(this.rotZMatrix);
-        this.rotMatrix.mulM(this.rotXMatrix);
-        this.rotMatrix.mulM(this.rotYMatrix);
+        this.rotMatrix
+            .copy(this.rotZMatrix)
+            .mulM(this.rotXMatrix)
+            .mulM(this.rotYMatrix);
 
-        Vector3 negPos = new Vector3(-this.pos.x, -this.pos.y, -this.pos.z);
-        this.posMatrix.setTranslation(negPos);
+        this.posMatrix.setTranslation(-this.pos.x, -this.pos.y, -this.pos.z);
 
-        this.modelMatrix.copy(this.rotMatrix);
-        this.modelMatrix.mulM(this.posMatrix);
+        this.modelMatrix
+            .copy(this.rotMatrix)
+            .mulM(this.posMatrix);
 
         return this.modelMatrix;
     }

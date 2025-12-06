@@ -2,6 +2,8 @@ package math;
 
 import debug.Console;
 
+import java.util.Arrays;
+
 public class Vector3 {
 
     public double x, y, z;
@@ -121,7 +123,14 @@ public class Vector3 {
     public Vector3 copy() {
         return new Vector3(this.x, this.y, this.z);
     }
+    public static Vector3 copy(double[] d) {
+        if(d.length < 3) {
+            Console.err("Array passed has less then 3 arguments (%s)", Arrays.toString(d));
+            System.exit(-1);
+        } else if (d.length > 3) Console.warn("Array passed has more then 3 arguments (%s)", Arrays.toString(d));
 
+        return new Vector3(d[0], d[1], d[2]);
+    }
     public void copy(Vector3 v) {
         this.x = v.x; this.y = v.y; this.z = v.z;
     }

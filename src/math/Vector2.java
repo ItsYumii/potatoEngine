@@ -2,6 +2,8 @@ package math;
 
 import debug.Console;
 
+import java.util.Arrays;
+
 public class Vector2 {
 
     public double x, y;
@@ -94,6 +96,14 @@ public class Vector2 {
 
     public Vector2 copy() {
         return new Vector2(this.x, this.y);
+    }
+    public static Vector2 copy(double[] d) {
+        if(d.length < 2) {
+            Console.err("Array passed has less then 2 arguments (%s)", Arrays.toString(d));
+            System.exit(-1);
+        } else if (d.length > 2) Console.warn("Array passed has more then 2 arguments (%s)", Arrays.toString(d));
+
+        return new Vector2(d[0], d[1]);
     }
 
     // this is here so HashSet can compare Vectors as values, not their memory addresses.
