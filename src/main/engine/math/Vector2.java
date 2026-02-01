@@ -1,6 +1,6 @@
-package math;
+package main.engine.math;
 
-import debug.Console;
+import main.engine.core.debug.Console;
 
 import java.util.Arrays;
 

@@ -1,7 +1,7 @@
-package objects.rasterizer;
+package main.engine.render;
 
-import math.Vector2;
-import math.Vector3;
+import main.engine.math.Vector2;
+import main.engine.math.Vector3;
 
 public class Triangle {
 

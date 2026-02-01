@@ -1,12 +1,11 @@
-package objects.rasterizer;
+package main.engine.render;
 
-import debug.Console;
+import main.engine.core.debug.Console;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.nio.file.FileSystemNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +46,7 @@ public class Texture {
         }
 
         int texId;
-        String filePath = "src/assets/textures/" + texturePath + ".png";
+        String filePath = "src/main/resources/assets/textures/" + texturePath + ".png";
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer w = stack.mallocInt(1);
@@ -58,7 +57,7 @@ public class Texture {
             ByteBuffer image = STBImage.stbi_load(filePath, w, h, channels, 4);
             if (image == null) {
                 Console.err("Path to texture invalid (%s)", filePath);
-                image = STBImage.stbi_load("src/assets/textures/no_texture.png", w, h, channels, 4);
+                image = STBImage.stbi_load("src/main/resources/assets/textures/no_texture.png", w, h, channels, 4);
                 if (image == null) {
                     Console.err("Missing texture loading failed", filePath);
                     System.exit(-1);

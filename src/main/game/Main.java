@@ -1,22 +1,16 @@
-import debug.Console;
-import engine.Input;
-import engine.InputController;
-import engine.Settings;
-import math.Matrix4x4;
-import math.Vector2;
-import math.Vector3;
-import objects.Cube;
-import objects.engine.Camera;
-import objects.engine.Object;
-import objects.rasterizer.ShaderProgram;
+import main.engine.core.debug.Console;
+import main.engine.input.Input;
+import main.engine.input.InputController;
+import main.engine.math.Matrix4x4;
+import main.engine.math.Vector3;
+import main.engine.scene.Camera;
+import main.engine.scene.Object;
+import main.engine.render.gl.ShaderProgram;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL20;
 
-import static objects.rasterizer.Texture.loadTexture;
+import static main.engine.render.Texture.loadTexture;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11C.*;
 
@@ -54,7 +48,8 @@ void main() {
 //        );
 //    }
 
-    new Object(new Vector3(0, 0, -3), new Vector3(0, 0, 180), loadTexture("kot").getID(), "pea_shooter");
+    new Object(new Vector3(0, 4, -3), new Vector3(0, 0, 180), loadTexture("kot").getID(), "cube");
+    new Object(new Vector3(0, -1, -3), new Vector3(0, 0, 180), loadTexture("kot").getID(), "plane`");
 
     double last = GLFW.glfwGetTime();
 
@@ -85,7 +80,7 @@ void main() {
 }
 
 private static void update() {
-    // for debug and util a real player isn't made:
+    // for main.engine.core.debug and util a real player isn't made:
     double angle = camera.getRotation().y * Math.PI / 180.0;
 
     if(Input.isKeyDown(GLFW_KEY_W)) {

@@ -1,6 +1,4 @@
-package math;
-
-import org.lwjgl.BufferUtils;
+package main.engine.math;
 
 import java.nio.FloatBuffer;
 import java.util.Arrays;

@@ -1,8 +1,8 @@
-package objects.engine;
+package main.engine.render;
 
 import com.google.gson.*;
-import math.Vector3;
-import objects.rasterizer.Triangle;
+import main.engine.assets.serialization.TriangleDeserializer;
+import main.engine.core.debug.Console;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +19,7 @@ public class Model {
 
     private void loadFromJson(String jsonPath) {
         try {
-            String json = Files.readString(Path.of("src/assets/models/" + jsonPath + ".json"));
+            String json = Files.readString(Path.of("src/main/resources/assets/models/" + jsonPath + ".json"));
 
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Triangle.class, new TriangleDeserializer())
@@ -37,6 +37,7 @@ public class Model {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Console.err("Model not found %s", jsonPath);
         }
     }
 

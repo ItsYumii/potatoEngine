@@ -1,13 +1,11 @@
-package objects.engine;
+package main.engine.assets.serialization;
 
 import com.google.gson.*;
-import math.Vector2;
-import math.Vector3;
-import objects.rasterizer.Triangle;
+import main.engine.render.Triangle;
 
 import java.lang.reflect.Type;
 
-class TriangleDeserializer implements JsonDeserializer<Triangle> {
+public class TriangleDeserializer implements JsonDeserializer<Triangle> {
 
     @Override
     public Triangle deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext ctx) throws JsonParseException {

@@ -1,4 +1,4 @@
-package objects.game;
+package main.game;
 
 public class Player {
 

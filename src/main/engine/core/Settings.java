@@ -1,4 +1,4 @@
-package engine;
+package main.engine.core;
 
 public final class Settings {
 

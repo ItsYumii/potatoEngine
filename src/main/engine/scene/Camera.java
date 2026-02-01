@@ -1,8 +1,8 @@
-package objects.engine;
+package main.engine.scene;
 
-import math.Matrix4x4;
-import math.Vector2;
-import math.Vector3;
+import main.engine.math.Matrix4x4;
+import main.engine.math.Vector2;
+import main.engine.math.Vector3;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -25,6 +25,18 @@ public class Camera {
 
     private final FloatBuffer fbModel = BufferUtils.createFloatBuffer(16);
 
+    private Object parent = null;
+
+    public Camera() {}
+
+    public Camera(Object parent) {
+        this.parent = parent;
+    }
+
+    private void goToParent() {
+        if(this.parent != null)
+            this.pos.copy(this.parent.pos);
+    }
     public Matrix4x4 getViewMatrix() {
         this.rotXMatrix.setRotationX(-this.rot.x);
         this.rotYMatrix.setRotationY(-this.rot.y);
@@ -35,6 +47,7 @@ public class Camera {
             .mulM(this.rotXMatrix)
             .mulM(this.rotYMatrix);
 
+        goToParent();
         this.posMatrix.setTranslation(-this.pos.x, -this.pos.y, -this.pos.z);
 
         this.modelMatrix
@@ -43,6 +56,7 @@ public class Camera {
 
         return this.modelMatrix;
     }
+
 
     public FloatBuffer getViewFloatBuffer() {
         this.modelMatrix.toFloatBuffer(this.fbModel);

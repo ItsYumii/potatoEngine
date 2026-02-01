@@ -1,6 +1,7 @@
-package engine;
+package main.engine.input;
 
-import math.Vector2;
+import main.engine.core.Settings;
+import main.engine.math.Vector2;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 

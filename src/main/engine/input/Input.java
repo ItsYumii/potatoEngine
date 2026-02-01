@@ -1,4 +1,4 @@
-package engine;
+package main.engine.input;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LAST;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LAST;

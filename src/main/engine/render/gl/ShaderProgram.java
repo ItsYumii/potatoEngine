@@ -1,6 +1,6 @@
-package objects.rasterizer;
+package main.engine.render.gl;
 
-import debug.Console;
+import main.engine.core.debug.Console;
 import org.lwjgl.opengl.GL20;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,8 +8,8 @@ import java.nio.file.Path;
 public class ShaderProgram {
 
     public static int load(String vertexPath, String fragmentPath) {
-        vertexPath   = "src/assets/shaders/" + vertexPath;
-        fragmentPath = "src/assets/shaders/" + fragmentPath;
+        vertexPath   = "src/main/resources/assets/shaders/" + vertexPath;
+        fragmentPath = "src/main/resources/assets/shaders/" + fragmentPath;
 
         String vertSrc;
         String fragSrc;

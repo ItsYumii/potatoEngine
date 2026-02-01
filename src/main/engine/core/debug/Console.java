@@ -1,4 +1,4 @@
-package debug;
+package main.engine.core.debug;
 
 public final class Console {
 

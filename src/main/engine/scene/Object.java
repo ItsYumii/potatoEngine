@@ -1,8 +1,9 @@
-package objects.engine;
+package main.engine.scene;
 
-import math.Matrix4x4;
-import math.Vector3;
-import objects.rasterizer.MeshGL;
+import main.engine.render.Model;
+import main.engine.math.Matrix4x4;
+import main.engine.math.Vector3;
+import main.engine.render.gl.MeshGL;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;

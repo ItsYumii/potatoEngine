@@ -1,7 +1,8 @@
-package objects.rasterizer;
+package main.engine.render.gl;
 
-import math.Vector2;
-import math.Vector3;
+import main.engine.math.Vector2;
+import main.engine.math.Vector3;
+import main.engine.render.Triangle;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
