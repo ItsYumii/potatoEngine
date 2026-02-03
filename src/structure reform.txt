@@ -10,7 +10,7 @@ src/
         input/
           Input
           InputController
-        main.engine.math/
+        main.java.main.engine.math/
           Vector2
           Vector3
           Matrix4x4
@@ -42,7 +42,7 @@ src/
             GLRenderer
 
       yourname/game/
-        main.game.Main
+        main.java.main.game.Main
         Player
         systems/
         scenes/

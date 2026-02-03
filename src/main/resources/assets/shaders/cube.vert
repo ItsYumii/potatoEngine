@@ -1,8 +1,8 @@
-#version 330 core
+#version 150
 
-layout(location = 0) in vec3 inPos;
-layout(location = 1) in vec2 inUV;
-layout(location = 2) in vec3 inNormal;
+in vec3 inPos;
+in vec2 inUV;
+in vec3 inNormal;
 
 uniform mat4 uMVP;
 uniform mat4 uModel;
@@ -15,7 +15,6 @@ out vec3 vLightDir;
 
 void main() {
     vUV = inUV;
-    // for now assume no non-uniform scale → just pass through
     vNormal = mat3(uModel) * inNormal;
     vLightDir = mat3(transpose(uCamera)) * uLightDir;
     gl_Position = uMVP * vec4(inPos, 1.0);
